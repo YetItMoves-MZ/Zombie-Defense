@@ -12,6 +12,10 @@ public class CameraMovement : MonoBehaviour
     [Header("MinMax")]
     public float MinZoom;
     public float MaxZoom;
+    public float MinMovementX;
+    public float MaxMovementX;
+    public float MinMovementZ;
+    public float MaxMovementZ;
 
     float yPosition;
 
@@ -34,14 +38,19 @@ public class CameraMovement : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        print(transform.forward);
         Vector3 movement = new Vector3(horizontal * Time.deltaTime * MoveSpeed, 0f, vertical * Time.deltaTime * MoveSpeed);
-        // transform.position = new Vector3(transform.position.x, yPosition, transform.position.y);
         Vector3 rotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0f, rotation.y, rotation.z);
         transform.Translate(movement);
         transform.rotation = Quaternion.Euler(rotation);
+        if (transform.position.x <= MinMovementX)
+            transform.position = new Vector3(MinMovementX, transform.position.y, transform.position.z);
+        if (transform.position.x >= MaxMovementX)
+            transform.position = new Vector3(MaxMovementX, transform.position.y, transform.position.z);
+        if (transform.position.z <= MinMovementZ)
+            transform.position = new Vector3(transform.position.x, transform.position.y, MinMovementZ);
+        if (transform.position.z >= MaxMovementZ)
+            transform.position = new Vector3(transform.position.x, transform.position.y, MaxMovementZ);
     }
     void Rotate()
     {
