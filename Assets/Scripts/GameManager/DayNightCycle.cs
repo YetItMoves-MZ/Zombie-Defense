@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
 {
+    public static DayNightCycle Instance { get; private set; }
     public delegate void MidDayFunctions();
     public MidDayFunctions DayFunctions;
     public MidDayFunctions NightFunctions;
@@ -14,6 +15,10 @@ public class DayNightCycle : MonoBehaviour
     float currentTime;
     bool pastNightTime; // prevent multiple night/day functions from calling more than once each time.
 
+    void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
