@@ -11,9 +11,9 @@ public class DayNightCycle : MonoBehaviour
     public Transform DirectionalLight;
     public float TimeInSecondsForFullDay;
     public TMPro.TMP_Text Clock;
+    public bool IsNight { get; private set; }
 
     float currentTime;
-    bool pastNightTime; // prevent multiple night/day functions from calling more than once each time.
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class DayNightCycle : MonoBehaviour
     {
         currentTime = TimeInSecondsForFullDay;
         DirectionalLight.rotation = Quaternion.Euler((currentTime / (TimeInSecondsForFullDay)) * 360f, 0, 0);
-        pastNightTime = true;
+        IsNight = true;
     }
 
     // Update is called once per frame
@@ -34,7 +34,7 @@ public class DayNightCycle : MonoBehaviour
         currentTime += Time.deltaTime;
         DirectionalLight.rotation = Quaternion.Euler((currentTime / (TimeInSecondsForFullDay)) * 360f, 0, 0);
 
-        if (currentTime >= TimeInSecondsForFullDay / 2 && !pastNightTime)
+        if (currentTime >= TimeInSecondsForFullDay / 2 && !IsNight)
             Night();
         else if (currentTime >= TimeInSecondsForFullDay)
             Day();
@@ -44,7 +44,7 @@ public class DayNightCycle : MonoBehaviour
 
     void Night()
     {
-        pastNightTime = true;
+        IsNight = true;
         print("night");
         NightFunctions?.Invoke();
     }
@@ -52,7 +52,7 @@ public class DayNightCycle : MonoBehaviour
     void Day()
     {
         currentTime -= TimeInSecondsForFullDay;
-        pastNightTime = false;
+        IsNight = false;
         print("day");
         DayFunctions?.Invoke();
 

@@ -24,10 +24,13 @@ public class ZombieMovement : MonoBehaviour
     Mode currentMode;
     Animator animator;
     bool isAttackAnimationStarted = false;
+    Stats myStats;
 
     // Start is called before the first frame update
     void Start()
     {
+        myStats = GetComponent<Stats>();
+        myStats.OnDeath += OnDeath;
         agent = GetComponent<NavMeshAgent>();
         animator = transform.GetChild(0).GetComponent<Animator>();
     }

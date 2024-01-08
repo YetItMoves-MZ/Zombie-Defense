@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    public delegate void VoidEvent();
+    public VoidEvent OnDamageTaken;
+    public VoidEvent OnDeath;
     int health;
     public int Health
     {
@@ -14,26 +17,25 @@ public class Stats : MonoBehaviour
         }
         set
         {
+            if (health > value)
+                OnDamageTaken?.Invoke();
             health = value;
             if (value <= 0)
-                OnDeath();
+                OnDeath?.Invoke();
         }
     }
     [SerializeField] int maxHealth;
 
-    private void OnDeath()
+    private void DefaultDeath()
     {
         gameObject.tag = "Dead";
-        if (TryGetComponent(out ZombieMovement zombieMovement))
-            zombieMovement.OnDeath();
-        else
-            Destroy(gameObject, 2f);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         Health = maxHealth;
+        OnDeath += DefaultDeath;
     }
 
     // Update is called once per frame
