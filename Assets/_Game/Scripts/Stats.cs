@@ -6,7 +6,7 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public delegate void VoidEvent();
-    public VoidEvent OnDamageTaken;
+    public VoidEvent OnHealthChanged;
     public VoidEvent OnDeath;
     int health;
     public int Health
@@ -17,30 +17,27 @@ public class Stats : MonoBehaviour
         }
         set
         {
-            if (health > value)
-                OnDamageTaken?.Invoke();
             health = value;
+            OnHealthChanged?.Invoke();
             if (value <= 0)
                 OnDeath?.Invoke();
         }
     }
-    [SerializeField] int maxHealth;
+    public int MaxHealth;
 
     private void DefaultDeath()
     {
         gameObject.tag = "Dead";
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        Health = maxHealth;
+        Health = MaxHealth;
         OnDeath += DefaultDeath;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FullHeal()
     {
-
+        Health = MaxHealth;
     }
 }

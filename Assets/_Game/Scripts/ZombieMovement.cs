@@ -33,6 +33,7 @@ public class ZombieMovement : MonoBehaviour
         myStats.OnDeath += OnDeath;
         agent = GetComponent<NavMeshAgent>();
         animator = transform.GetChild(0).GetComponent<Animator>();
+        DayNightCycle.Instance.DayFunctions += OnDeath;
     }
 
     // Update is called once per frame
