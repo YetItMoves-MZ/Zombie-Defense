@@ -12,6 +12,7 @@ public class DayNightCycle : MonoBehaviour
     public float TimeInSecondsForFullDay;
     public TMPro.TMP_Text Clock;
     public bool IsNight { get; private set; }
+    public int DayCounter = 0;
 
     float currentTime;
 
@@ -51,6 +52,7 @@ public class DayNightCycle : MonoBehaviour
 
     void Day()
     {
+        DayCounter++;
         currentTime -= TimeInSecondsForFullDay;
         IsNight = false;
         print("day");

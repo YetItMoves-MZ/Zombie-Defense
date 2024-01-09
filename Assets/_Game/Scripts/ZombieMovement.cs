@@ -34,11 +34,16 @@ public class ZombieMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = transform.GetChild(0).GetComponent<Animator>();
         DayNightCycle.Instance.DayFunctions += OnDeath;
+
+        Damage = (int)(Damage + 0.5f * DayNightCycle.Instance.DayCounter);
+        myStats.MaxHealth = (int)(myStats.MaxHealth + DayNightCycle.Instance.DayCounter);
+        myStats.FullHeal();
     }
 
     // Update is called once per frame
     void Update()
     {
+        target = FindClosestTarget();
         if (currentMode == Mode.Idle)
             OnIdle();
         if (currentMode == Mode.Moveing)
@@ -49,7 +54,6 @@ public class ZombieMovement : MonoBehaviour
 
     private void OnIdle()
     {
-        target = FindClosestTarget();
         float targetDistance = Vector3.Distance(target.position, transform.position);
         if (targetDistance > AttackRange)
             currentMode = Mode.Moveing;
@@ -145,6 +149,9 @@ public class ZombieMovement : MonoBehaviour
 
     public void OnDeath()
     {
+        if (currentMode == Mode.Dead)
+            return;
+        agent.destination = transform.position;
         currentMode = Mode.Dead;
         animator.SetBool("IsDead", true);
         StartCoroutine(WaitForDestruction());
