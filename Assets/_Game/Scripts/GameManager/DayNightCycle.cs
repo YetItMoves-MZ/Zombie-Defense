@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +41,17 @@ public class DayNightCycle : MonoBehaviour
         else if (currentTime >= TimeInSecondsForFullDay)
             Day();
 
+        DaySkipOption();
+
         Clock.text = PersentageToClock(currentTime / TimeInSecondsForFullDay, 6);
+    }
+
+    private void DaySkipOption()
+    {
+        if (IsNight)
+            return;
+        if (Input.GetButtonDown("SkipDay"))
+            SkipDay();
     }
 
     void Night()

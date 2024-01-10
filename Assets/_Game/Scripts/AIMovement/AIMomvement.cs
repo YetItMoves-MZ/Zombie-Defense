@@ -93,6 +93,7 @@ public abstract class AIMomvement : MonoBehaviour
         float closestRange = -1;
         foreach (RaycastHit hit in hits)
         {
+            print(hit.transform.gameObject);
             if (closestRange < 0)
             {
                 if (hit.transform.tag == targetTag)
@@ -124,6 +125,7 @@ public abstract class AIMomvement : MonoBehaviour
             return;
         agent.destination = transform.position;
         currentMode = Mode.Dead;
+        gameObject.tag = "Dead";
         animator.SetBool("IsDead", true);
         StartCoroutine(WaitForDestruction());
     }

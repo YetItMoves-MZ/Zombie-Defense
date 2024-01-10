@@ -24,7 +24,7 @@ public class AllyMovement : AIMomvement
 
     protected override void OnMovement()
     {
-        if (target == null)
+        if (MovementIndicator())
         {
             agent.destination = AllyMover.Instance.MovementIndicator.position;
             animator.SetBool("IsMoving", true);

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ZombieAttackAnimation : StateMachineBehaviour
 {
+    public float WaitTimer;
     int countAttacks = 0;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -15,7 +16,7 @@ public class ZombieAttackAnimation : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime - countAttacks >= 0.4f)
+        if (stateInfo.normalizedTime - countAttacks >= WaitTimer)
             animator.SetBool("IsAttacking", false);
 
         if (countAttacks + 1 == (int)stateInfo.normalizedTime)
