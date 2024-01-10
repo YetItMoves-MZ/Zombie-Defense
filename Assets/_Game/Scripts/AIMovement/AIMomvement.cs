@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ZombieMovement : MonoBehaviour
+public abstract class AIMomvement : MonoBehaviour
 {
-    enum Mode
+    protected enum Mode
     {
         Idle,
         Moveing,
@@ -19,31 +18,32 @@ public class ZombieMovement : MonoBehaviour
     public float SightRange;
     public int Damage;
 
-    NavMeshAgent agent;
-    private Transform target;
-    Mode currentMode;
-    Animator animator;
-    bool isAttackAnimationStarted = false;
-    Stats myStats;
+    protected NavMeshAgent agent;
+    protected Transform target;
+    protected Mode currentMode;
+    protected Animator animator;
+    protected bool isAttackAnimationStarted = false;
+    protected Stats myStats;
+
+    protected string targetTag = "";
+    protected Transform defaultTargetTransform = null;
 
     // Start is called before the first frame update
-    void Start()
+    virtual protected void Start()
     {
         myStats = GetComponent<Stats>();
-        myStats.OnDeath += OnDeath;
         agent = GetComponent<NavMeshAgent>();
         animator = transform.GetChild(0).GetComponent<Animator>();
-        DayNightCycle.Instance.DayFunctions += OnDeath;
 
-        Damage = (int)(Damage + 0.5f * DayNightCycle.Instance.DayCounter);
-        myStats.MaxHealth = (int)(myStats.MaxHealth + DayNightCycle.Instance.DayCounter);
-        myStats.FullHeal();
+        currentMode = Mode.Idle;
+
+        myStats.OnDeath += OnDeath;
     }
 
     // Update is called once per frame
     void Update()
     {
-        target = FindClosestTarget();
+        target = FindClosestTarget(targetTag, defaultTargetTransform);
         if (currentMode == Mode.Idle)
             OnIdle();
         if (currentMode == Mode.Moveing)
@@ -52,72 +52,9 @@ public class ZombieMovement : MonoBehaviour
             OnAttacking();
     }
 
-    private void OnIdle()
+    protected void OnAttacking()
     {
-        float targetDistance = Vector3.Distance(target.position, transform.position);
-        if (targetDistance > AttackRange)
-            currentMode = Mode.Moveing;
-        else
-            currentMode = Mode.Attacking;
-
-    }
-
-    private Transform FindClosestTarget()
-    {
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, SightRange, transform.forward, SightRange);
-
-        if (hits.Length < 1)
-            return MainBase.Instance.transform;
-
-        Transform closest = hits[0].transform;
-        float closestRange = -1;
-        foreach (RaycastHit hit in hits)
-        {
-            if (closestRange < 0)
-            {
-                if (hit.transform.tag == "Ally")
-                {
-                    closest = hit.transform;
-                    closestRange = Vector3.Distance(closest.position, transform.position);
-                    continue;
-                }
-            }
-            else
-            {
-                float hitRange = Vector3.Distance(hit.transform.position, transform.position);
-                if (hitRange < closestRange)
-                {
-                    if (hit.transform.tag == "Ally")
-                    {
-                        closest = hit.transform;
-                        closestRange = hitRange;
-                    }
-                }
-            }
-        }
-        return closestRange < 0 ? MainBase.Instance.transform : closest;
-
-    }
-
-    private void OnMovement()
-    {
-        float targetDistance = Vector3.Distance(target.position, transform.position);
-        if (targetDistance > AttackRange)
-        {
-            agent.destination = target.position;
-            animator.SetBool("IsMoving", true);
-        }
-        else
-        {
-            currentMode = Mode.Attacking;
-            animator.SetBool("IsMoving", false);
-        }
-    }
-
-    private void OnAttacking()
-    {
-        float targetDistance = Vector3.Distance(target.position, transform.position);
-        if (targetDistance <= AttackRange)
+        if (!MovementIndicator())
         {
             agent.destination = transform.position;
             animator.SetBool("CanAttack", true);
@@ -135,16 +72,50 @@ public class ZombieMovement : MonoBehaviour
             animator.SetBool("CanAttack", false);
         }
     }
-
-    private void DealDamage()
+    protected abstract void OnMovement();
+    protected void OnIdle()
     {
-        target.TryGetComponent(out Stats stats);
-        stats.Health -= Damage;
-        if (stats.Health <= 0)
-        {
-            target = FindClosestTarget();
-        }
+        if (MovementIndicator())
+            currentMode = Mode.Moveing;
+        else
+            currentMode = Mode.Attacking;
+    }
+    protected abstract void DealDamage();
+    protected abstract bool MovementIndicator();
+    protected Transform FindClosestTarget(string targetTag, Transform defaultTransform)
+    {
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, SightRange, transform.forward, SightRange);
 
+        if (hits.Length < 1)
+            return defaultTransform;
+
+        Transform closest = hits[0].transform;
+        float closestRange = -1;
+        foreach (RaycastHit hit in hits)
+        {
+            if (closestRange < 0)
+            {
+                if (hit.transform.tag == targetTag)
+                {
+                    closest = hit.transform;
+                    closestRange = Vector3.Distance(closest.position, transform.position);
+                    continue;
+                }
+            }
+            else
+            {
+                float hitRange = Vector3.Distance(hit.transform.position, transform.position);
+                if (hitRange < closestRange)
+                {
+                    if (hit.transform.tag == targetTag)
+                    {
+                        closest = hit.transform;
+                        closestRange = hitRange;
+                    }
+                }
+            }
+        }
+        return closestRange < 0 ? defaultTransform : closest;
     }
 
     public void OnDeath()

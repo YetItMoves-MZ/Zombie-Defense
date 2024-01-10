@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasicBuilding
       objectReference: {fileID: 0}
+    - target: {fileID: 1938197716418238, guid: 408af9f2b6062b4449d4b84d945fdd57, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4321637437612654, guid: 408af9f2b6062b4449d4b84d945fdd57, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -86,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d3027ac158d3b47a1bef7b057e7405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 10
+  MaxHealth: 50
 --- !u!114 &206535142241167062
 MonoBehaviour:
   m_ObjectHideFlags: 0

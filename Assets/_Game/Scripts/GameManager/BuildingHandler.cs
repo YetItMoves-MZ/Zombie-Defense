@@ -79,14 +79,6 @@ public class BuildingHandler : MonoBehaviour
     {
         var building = Instantiate(buildingPrefab, GetMousePosition(), transform.rotation);
         OnBuildingCancel();
-        // if (building.TryGetComponent(out BuildingStats stats))
-        // {
-        //     stats.OnBuildingSpawned();
-        // }
-        // if (!_buildingPickup.IsBought)
-        //     ResourcesHandler.Instance.Resources -= _buildingPickup.ResourceCost;
-        // IsBuilding = false;
-        // Destroy(_buildingPickup.gameObject);
     }
 
     public void InitializeBuilding(GameObject buildingPlanPrefab, GameObject buildingPrefab)
