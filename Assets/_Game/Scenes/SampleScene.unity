@@ -1111,6 +1111,7 @@ GameObject:
   - component: {fileID: 1838320867}
   - component: {fileID: 1838320869}
   - component: {fileID: 1838320870}
+  - component: {fileID: 1838320871}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1176,6 +1177,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingPlanPrefab: {fileID: 100004, guid: 6d3465852e62cf943aa1a3bcbbcf9742, type: 3}
   BuildingPrefab: {fileID: 100004, guid: 800a3b81a3d0e4f4d9f8bbc1c7e8174c, type: 3}
+--- !u!114 &1838320871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838320866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9dfc1d5df469d49a4fd6cae6fcec13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1955672058
 GameObject:
   m_ObjectHideFlags: 0
