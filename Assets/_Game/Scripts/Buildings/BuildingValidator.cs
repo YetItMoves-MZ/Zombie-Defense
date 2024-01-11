@@ -7,7 +7,7 @@ public class BuildingValidator : MonoBehaviour
 {
     // [SerializeField] MeshRenderer mesh;
     List<Collider> blockingColliders;
-
+    bool isBeyondMaxDistance;
     void Awake()
     {
         blockingColliders = new List<Collider>();
@@ -17,8 +17,43 @@ public class BuildingValidator : MonoBehaviour
     void Start()
     {
         // mesh.material.color = Color.red;
-        MakeSolidColor(Color.green, transform);
-        BuildingHandler.Instance.IsInBuildableLocation = true;
+        if (BuildingHandler.Instance.MaxDistanceFromBase < Vector3.Distance(transform.position, MainBase.Instance.transform.position))
+        {
+            MakeSolidColor(Color.red, transform);
+            BuildingHandler.Instance.IsInBuildableLocation = false;
+            isBeyondMaxDistance = true;
+        }
+        else
+        {
+            MakeSolidColor(Color.green, transform);
+            BuildingHandler.Instance.IsInBuildableLocation = true;
+            isBeyondMaxDistance = false;
+        }
+    }
+
+    void Update()
+    {
+        if (BuildingHandler.Instance.MaxDistanceFromBase < Vector3.Distance(transform.position, MainBase.Instance.transform.position))
+        {
+            MakeSolidColor(Color.red, transform);
+            BuildingHandler.Instance.IsInBuildableLocation = false;
+            isBeyondMaxDistance = true;
+        }
+        else
+        {
+            if (blockingColliders.Count == 0)
+            {
+                MakeSolidColor(Color.green, transform);
+                BuildingHandler.Instance.IsInBuildableLocation = true;
+                isBeyondMaxDistance = false;
+            }
+            else
+            {
+                MakeSolidColor(Color.red, transform);
+                BuildingHandler.Instance.IsInBuildableLocation = false;
+                isBeyondMaxDistance = true;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,9 +72,13 @@ public class BuildingValidator : MonoBehaviour
         blockingColliders.Remove(other);
         if (blockingColliders.Count != 0)
             return;
-        // mesh.material.color = Color.green;
-        MakeSolidColor(Color.green, transform);
-        BuildingHandler.Instance.IsInBuildableLocation = true;
+
+        if (!(BuildingHandler.Instance.MaxDistanceFromBase < Vector3.Distance(transform.position, MainBase.Instance.transform.position)))
+        {
+            // mesh.material.color = Color.green;
+            MakeSolidColor(Color.green, transform);
+            BuildingHandler.Instance.IsInBuildableLocation = true;
+        }
     }
 
     void MakeSolidColor(Color color, Transform transform)

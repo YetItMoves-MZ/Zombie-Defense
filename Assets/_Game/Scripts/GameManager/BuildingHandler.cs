@@ -19,6 +19,7 @@ public class BuildingHandler : MonoBehaviour
         }
     }
     [HideInInspector] public bool IsInBuildableLocation;
+    public float MaxDistanceFromBase;
 
     bool isBuilding = false;
     GameObject buildingPlan;

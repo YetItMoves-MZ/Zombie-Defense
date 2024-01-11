@@ -89,7 +89,7 @@ public abstract class AIMomvement : MonoBehaviour
         if (hits.Length < 1)
             return defaultTransform;
 
-        Transform closest = hits[0].transform;
+        Transform closest = defaultTransform;
         float closestRange = -1;
         foreach (RaycastHit hit in hits)
         {
@@ -116,7 +116,7 @@ public abstract class AIMomvement : MonoBehaviour
                 }
             }
         }
-        return closestRange < 0 ? defaultTransform : closest;
+        return closest;
     }
 
     public void OnDeath()
