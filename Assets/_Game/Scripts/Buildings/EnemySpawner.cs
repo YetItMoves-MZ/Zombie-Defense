@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     [Range(0.0001f, 0.1f)]
     public float DayMultiplier;
 
+    public int MoneyGainedOnDestruction;
+
 
     Stats myStats;
     bool isDestroyed = false;
@@ -38,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnDeath()
     {
         ScoreManagement.RemoveEnemyBuilding(myStats);
+        MoneyManager.Instance.GainMoney(MoneyGainedOnDestruction);
         isDestroyed = true;
         Destroy(gameObject);
     }

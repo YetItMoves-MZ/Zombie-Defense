@@ -93,7 +93,6 @@ public abstract class AIMomvement : MonoBehaviour
         float closestRange = -1;
         foreach (RaycastHit hit in hits)
         {
-            print(hit.transform.gameObject);
             if (closestRange < 0)
             {
                 if (hit.transform.tag == targetTag)

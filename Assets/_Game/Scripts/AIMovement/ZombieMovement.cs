@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public class ZombieMovement : AIMomvement
 {
 
+    public int MoneyGainedOnKilled;
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -18,6 +19,12 @@ public class ZombieMovement : AIMomvement
 
         DayNightCycle.Instance.DayFunctions += OnDeath; // kill zombie when day starts
         BuffZombieByDayCounter();
+        myStats.OnDeath += OnZombieDeath;
+    }
+
+    void OnZombieDeath()
+    {
+        MoneyManager.Instance.GainMoney(MoneyGainedOnKilled);
     }
 
     void BuffZombieByDayCounter()

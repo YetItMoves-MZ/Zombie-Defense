@@ -90,6 +90,7 @@ MonoBehaviour:
   AttackRange: 5
   SightRange: 50
   Damage: 1
+  MoneyGainedOnKilled: 10
 --- !u!114 &2778268044252334137
 MonoBehaviour:
   m_ObjectHideFlags: 0

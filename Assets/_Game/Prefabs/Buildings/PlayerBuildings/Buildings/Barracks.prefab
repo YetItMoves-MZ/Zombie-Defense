@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllyPrefab: {fileID: 2677834301524842286, guid: 2e694f2fcd9141e4380b5e96c041be50, type: 3}
-  AllyCost: 0
+  AllyCost: 50
   TimerPerSummon: 1
   MaxAllyCount: 3
