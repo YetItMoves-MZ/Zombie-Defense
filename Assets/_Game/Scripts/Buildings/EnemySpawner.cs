@@ -26,6 +26,8 @@ public class EnemySpawner : MonoBehaviour
         DayNightCycle.Instance.DayFunctions += OnDayStart;
         myStats = GetComponent<Stats>();
         myStats.OnDeath += OnDeath;
+        ScoreManagement.AddEnemyBuilding(myStats);
+
         if (MinimumDayToStartSpawn <= 1)
         {
             StartCoroutine(Spawn());
@@ -35,6 +37,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDeath()
     {
+        ScoreManagement.RemoveEnemyBuilding(myStats);
         isDestroyed = true;
         Destroy(gameObject);
     }
@@ -67,7 +70,6 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator Spawn()
     {
-        print("here");
         while (!isDestroyed)
         {
             if (DayNightCycle.Instance.IsNight)

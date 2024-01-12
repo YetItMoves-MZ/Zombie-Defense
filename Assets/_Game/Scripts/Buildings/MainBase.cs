@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainBase : MonoBehaviour
@@ -33,8 +36,8 @@ public class MainBase : MonoBehaviour
 
     void OnDeath()
     {
-        print("GameFinished: Lose");
-        // TODO GAME FINISHED YOU LOST.
+        ScoreManagement.GameEndedMessage = "You Lose";
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
 
     void OnHealthChanged()

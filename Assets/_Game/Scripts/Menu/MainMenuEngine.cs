@@ -30,7 +30,7 @@ public class MainMenuEngine : MonoBehaviour
     }
     public void OnPlayClick()
     {
-        InGameScoreManagement.StartNewGame();
+        ScoreManagement.StartNewGame();
         // Load game scene
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
