@@ -9,16 +9,17 @@ public class AllySpawner : MonoBehaviour
     public float TimerPerSummon;
     public int MaxAllyCount;
 
-    int allyCount;
+
     Coroutine summon;
     bool isCoroutineRunning = false;
     Stats stats;
+    List<AllyMovement> summonedAllies;
 
     void Start()
     {
         stats = GetComponent<Stats>();
 
-        allyCount = 0;
+        summonedAllies = new List<AllyMovement>();
         stats.OnDeath += OnDeath;
         DayNightCycle.Instance.DayFunctions += OnDayStart;
         DayNightCycle.Instance.NightFunctions += OnNightStart;
@@ -28,10 +29,13 @@ public class AllySpawner : MonoBehaviour
 
     bool TrySummonUnit()
     {
-        if (allyCount == MaxAllyCount || !MoneyManager.Instance.Purchase(AllyCost))
+        if (summonedAllies.Count == MaxAllyCount || !MoneyManager.Instance.Purchase(AllyCost))
             return false;
-        Instantiate(AllyPrefab, transform.position, Quaternion.identity);
-        allyCount++;
+        GameObject summon = Instantiate(AllyPrefab, transform.position, Quaternion.identity);
+        AllyMovement summonMovements = summon.GetComponent<AllyMovement>();
+
+        summonedAllies.Add(summonMovements);
+        summonMovements.OnSummonDeath += OnSummonDeath;
         return true;
     }
 
@@ -64,9 +68,15 @@ public class AllySpawner : MonoBehaviour
         }
     }
 
+    public void OnSummonDeath(AllyMovement summon)
+    {
+        summonedAllies.Remove(summon);
+    }
+
     public void OnDeath()
     {
         StopCoroutine(summon);
+        summonedAllies.Clear();
         Destroy(gameObject);
     }
 

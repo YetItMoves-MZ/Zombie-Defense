@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,9 +22,9 @@ public class BuildingHandler : MonoBehaviour
     [HideInInspector] public bool IsInBuildableLocation;
     public float MaxDistanceFromBase;
 
+    Build building;
     bool isBuilding = false;
     GameObject buildingPlan;
-    GameObject buildingPrefab;
 
 
     // Start is called before the first frame update
@@ -54,9 +55,9 @@ public class BuildingHandler : MonoBehaviour
     {
         Destroy(buildingPlan);
         buildingPlan = null;
-        buildingPrefab = null;
         isBuilding = false;
         IsInBuildableLocation = false;
+        building = null;
     }
 
     void OnMouseFollow()
@@ -78,18 +79,26 @@ public class BuildingHandler : MonoBehaviour
     }
     void OnSuccessfulBuild()
     {
-        var building = Instantiate(buildingPrefab, GetMousePosition(), transform.rotation);
-        OnBuildingCancel();
+        if (MoneyManager.Instance.Purchase(building.Cost))
+        {
+            GameObject newBuilding = Instantiate(building.BuildingPrefab, GetMousePosition(), transform.rotation);
+
+            // adjust new costs for buildings of the same kind (if it dies reduce the cost)
+            building.Cost = (int)(1.5f * building.Cost);
+            newBuilding.GetComponent<AllyBuildingStats>().SaveBuild(building);
+
+            OnBuildingCancel();
+        }
     }
 
-    public void InitializeBuilding(GameObject buildingPlanPrefab, GameObject buildingPrefab)
+    public void InitializeBuilding(Build newBuilding)
     {
-        if (buildingPlanPrefab)
+        if (buildingPlan)
         {
             OnBuildingCancel();
         }
+        building = newBuilding;
         IsBuilding = true;
-        this.buildingPrefab = buildingPrefab;
-        buildingPlan = Instantiate(buildingPlanPrefab, GetMousePosition(), transform.rotation);
+        buildingPlan = Instantiate(building.BuildingPlanPrefab, GetMousePosition(), transform.rotation);
     }
 }

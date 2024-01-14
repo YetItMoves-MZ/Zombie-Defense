@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AllyMovement : AIMomvement
 {
-
+    public delegate void AllyEvent(AllyMovement allyMovement);
+    public AllyEvent OnSummonDeath;
     protected override void Start()
     {
         base.Start();
 
         targetTag = "Enemy";
         defaultTargetTransform = null;
+        myStats.OnDeath += OnAllyDeath;
     }
     protected override void DealDamage()
     {
@@ -39,5 +42,10 @@ public class AllyMovement : AIMomvement
     protected override bool MovementIndicator()
     {
         return target == null;
+    }
+
+    void OnAllyDeath()
+    {
+        OnSummonDeath?.Invoke(this);
     }
 }

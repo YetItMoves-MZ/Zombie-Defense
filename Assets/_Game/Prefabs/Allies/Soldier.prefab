@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e88704683075f143bdadb48a7a82097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 15
-  SightRange: 15
+  AttackRange: 10
+  SightRange: 10
   Damage: 1
 --- !u!114 &4268597417356199903
 MonoBehaviour:

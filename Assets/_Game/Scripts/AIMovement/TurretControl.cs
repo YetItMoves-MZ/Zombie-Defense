@@ -39,6 +39,11 @@ public class TurretControl : MonoBehaviour
 
     private void OnAttacking()
     {
+        if (target == null)
+        {
+            currentMode = Mode.Idle;
+            return;
+        }
         TurretObject.LookAt(target);
         if (timer <= 0)
         {
@@ -72,7 +77,6 @@ public class TurretControl : MonoBehaviour
         float closestRange = -1;
         foreach (RaycastHit hit in hits)
         {
-            print(hit.transform.gameObject);
             if (closestRange < 0)
             {
                 if (hit.transform.tag == "Enemy")

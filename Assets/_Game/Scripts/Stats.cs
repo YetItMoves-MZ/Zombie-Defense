@@ -40,4 +40,10 @@ public class Stats : MonoBehaviour
     {
         Health = MaxHealth;
     }
+
+    private void OnDestroy()
+    {
+        OnHealthChanged = null;
+        OnDeath = null;
+    }
 }

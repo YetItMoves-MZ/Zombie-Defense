@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f571dbd2c7fc31458b4ac57bea9a7de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 5
+  AttackRange: 4
   SightRange: 50
   Damage: 1
   MoneyGainedOnKilled: 10
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d3027ac158d3b47a1bef7b057e7405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 3
+  MaxHealth: 1
 --- !u!136 &-8743208778861172722
 CapsuleCollider:
   m_ObjectHideFlags: 0
