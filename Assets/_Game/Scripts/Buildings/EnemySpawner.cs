@@ -39,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDeath()
     {
+        GetComponent<AudioSource>().Play();
         ScoreManagement.RemoveEnemyBuilding(myStats);
         MoneyManager.Instance.GainMoney(MoneyGainedOnDestruction);
         isDestroyed = true;

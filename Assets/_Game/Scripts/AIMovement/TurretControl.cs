@@ -16,6 +16,8 @@ public class TurretControl : MonoBehaviour
     public float AttackSpeed = 1f;
     public Transform TurretObject;
 
+    [SerializeField] AudioClip destructionClip;
+
     Transform target;
     Mode currentMode;
     Stats myStats;
@@ -55,6 +57,7 @@ public class TurretControl : MonoBehaviour
 
     private void DealDamage()
     {
+        GetComponent<AudioSource>().Play();
         target.GetComponent<Stats>().Health -= Damage;
     }
 
@@ -104,6 +107,10 @@ public class TurretControl : MonoBehaviour
 
     void OnDeath()
     {
+
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.clip = destructionClip;
+        audioSource.Play();
         Destroy(gameObject);
     }
 

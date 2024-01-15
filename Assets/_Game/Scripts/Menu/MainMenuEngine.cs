@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuEngine : MonoBehaviour
 {
+    [SerializeField] GameObject MainMenuUI;
     void Start()
     {
         // TODO check high scores
@@ -27,6 +28,8 @@ public class MainMenuEngine : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             OnExitClick();
+
+        MainMenuUI.SetActive(!Options.IsOptionsMenuLoaded);
     }
     public void OnPlayClick()
     {
@@ -50,6 +53,6 @@ public class MainMenuEngine : MonoBehaviour
 
     public void OnOptionsClick()
     {
-        // TODO make options option (lol)
+        SceneManager.LoadScene(3, LoadSceneMode.Additive);
     }
 }

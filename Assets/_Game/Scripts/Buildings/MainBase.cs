@@ -36,6 +36,7 @@ public class MainBase : MonoBehaviour
 
     void OnDeath()
     {
+        GetComponent<AudioSource>().Play();
         ScoreManagement.GameEndedMessage = "You Lose";
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
@@ -43,5 +44,10 @@ public class MainBase : MonoBehaviour
     void OnHealthChanged()
     {
         healthSlider.value = MyStats.Health;
+    }
+
+    private void Update()
+    {
+        OnHealthChanged();
     }
 }

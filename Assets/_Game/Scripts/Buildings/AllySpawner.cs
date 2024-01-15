@@ -9,6 +9,7 @@ public class AllySpawner : MonoBehaviour
     public float TimerPerSummon;
     public int MaxAllyCount;
 
+    [SerializeField] AudioClip destructionClip;
 
     Coroutine summon;
     bool isCoroutineRunning = false;
@@ -31,6 +32,8 @@ public class AllySpawner : MonoBehaviour
     {
         if (summonedAllies.Count == MaxAllyCount || !MoneyManager.Instance.Purchase(AllyCost))
             return false;
+        GetComponent<AudioSource>().Play();
+
         GameObject summon = Instantiate(AllyPrefab, transform.position, Quaternion.identity);
         AllyMovement summonMovements = summon.GetComponent<AllyMovement>();
 
@@ -75,6 +78,9 @@ public class AllySpawner : MonoBehaviour
 
     public void OnDeath()
     {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.clip = destructionClip;
+        audioSource.Play();
         StopCoroutine(summon);
         summonedAllies.Clear();
         Destroy(gameObject);

@@ -56,6 +56,7 @@ public class DayNightCycle : MonoBehaviour
 
     void Night()
     {
+        GetComponent<AudioSource>().Play();
         IsNight = true;
         print("night");
         NightFunctions?.Invoke();

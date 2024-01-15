@@ -17,6 +17,7 @@ public class AllyMovement : AIMomvement
     }
     protected override void DealDamage()
     {
+        GetComponent<AudioSource>().Play();
         target.TryGetComponent(out Stats stats);
         stats.Health -= Damage;
         if (stats.Health <= 0)
