@@ -7,7 +7,6 @@ public class BuildingValidator : MonoBehaviour
 {
     // [SerializeField] MeshRenderer mesh;
     List<Collider> blockingColliders;
-    bool isBeyondMaxDistance;
     void Awake()
     {
         blockingColliders = new List<Collider>();
@@ -21,13 +20,11 @@ public class BuildingValidator : MonoBehaviour
         {
             MakeSolidColor(Color.red, transform);
             BuildingHandler.Instance.IsInBuildableLocation = false;
-            isBeyondMaxDistance = true;
         }
         else
         {
             MakeSolidColor(Color.green, transform);
             BuildingHandler.Instance.IsInBuildableLocation = true;
-            isBeyondMaxDistance = false;
         }
     }
 
@@ -37,7 +34,6 @@ public class BuildingValidator : MonoBehaviour
         {
             MakeSolidColor(Color.red, transform);
             BuildingHandler.Instance.IsInBuildableLocation = false;
-            isBeyondMaxDistance = true;
         }
         else
         {
@@ -45,13 +41,11 @@ public class BuildingValidator : MonoBehaviour
             {
                 MakeSolidColor(Color.green, transform);
                 BuildingHandler.Instance.IsInBuildableLocation = true;
-                isBeyondMaxDistance = false;
             }
             else
             {
                 MakeSolidColor(Color.red, transform);
                 BuildingHandler.Instance.IsInBuildableLocation = false;
-                isBeyondMaxDistance = true;
             }
         }
     }

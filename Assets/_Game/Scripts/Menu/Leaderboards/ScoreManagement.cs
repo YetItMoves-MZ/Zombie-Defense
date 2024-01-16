@@ -55,7 +55,6 @@ public class ScoreManagement
     public static void AddEnemyBuilding(Stats enemyBuilding)
     {
         enemyBuildingsList.Add(enemyBuilding);
-        Debug.Log(enemyBuildingsList.Count);
     }
 
     public static void RemoveEnemyBuilding(Stats enemyBuilding)
