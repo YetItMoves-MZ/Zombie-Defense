@@ -41,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
     {
         GetComponent<AudioSource>().Play();
         ScoreManagement.RemoveEnemyBuilding(myStats);
+        ScoreManagement.EnemyBuildingsDestroyed++;
         MoneyManager.Instance.GainMoney(MoneyGainedOnDestruction);
         isDestroyed = true;
         Destroy(gameObject);

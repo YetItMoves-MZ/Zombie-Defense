@@ -9,6 +9,7 @@ public class Stats : MonoBehaviour
     public VoidEvent OnHealthChanged;
     public VoidEvent OnDeath;
     int health;
+    bool isDead;
     public int Health
     {
         get
@@ -19,8 +20,11 @@ public class Stats : MonoBehaviour
         {
             health = value;
             OnHealthChanged?.Invoke();
-            if (value <= 0)
+            if (value <= 0 && !isDead)
+            {
+                isDead = true;
                 OnDeath?.Invoke();
+            }
         }
     }
     public int MaxHealth;
@@ -32,6 +36,7 @@ public class Stats : MonoBehaviour
 
     void Start()
     {
+        isDead = false;
         Health = MaxHealth;
         OnDeath += DefaultDeath;
     }

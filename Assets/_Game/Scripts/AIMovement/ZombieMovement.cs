@@ -25,6 +25,7 @@ public class ZombieMovement : AIMomvement
     void OnZombieDeath()
     {
         MoneyManager.Instance.GainMoney(MoneyGainedOnKilled);
+        ScoreManagement.ZombiesKilled++;
     }
 
     void BuffZombieByDayCounter()

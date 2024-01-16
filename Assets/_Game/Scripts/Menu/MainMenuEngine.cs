@@ -9,19 +9,10 @@ public class MainMenuEngine : MonoBehaviour
     [SerializeField] GameObject MainMenuUI;
     void Start()
     {
-        // TODO check high scores
-        // if (InGameUIEngine.needToCheckHighScore)
-        // {
-        //     InGameScoreManagement.CheckNewHighScore();
-        //     if (InGameScoreManagement.newHighScore)
-        //     {
-        //         // Load high score scene
-        //         SceneManager.LoadScene(1, LoadSceneMode.Additive);
-        //     }
-
-        // }
-
-
+        if (ScoreManagement.NewHighScore)
+        {
+            SceneManager.LoadScene(4, LoadSceneMode.Additive);
+        }
     }
 
     void Update()
@@ -29,7 +20,9 @@ public class MainMenuEngine : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             OnExitClick();
 
-        MainMenuUI.SetActive(!Options.IsOptionsMenuLoaded);
+        bool optionsIsOpened = OptionsMenuEngine.Instance != null && OptionsMenuEngine.Instance.IsOpened;
+        bool leaderboardsIsOpened = LeaderboardsEngine.Instance != null && LeaderboardsEngine.Instance.IsOpened;
+        MainMenuUI.SetActive(!(optionsIsOpened || leaderboardsIsOpened));
     }
     public void OnPlayClick()
     {
@@ -46,9 +39,7 @@ public class MainMenuEngine : MonoBehaviour
     }
     public void OnLeaderboardsClick()
     {
-        // TODO make leaderboards...
-        // Load leaderboards
-        // SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        SceneManager.LoadScene(4, LoadSceneMode.Additive);
     }
 
     public void OnOptionsClick()

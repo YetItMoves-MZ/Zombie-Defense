@@ -7,7 +7,6 @@ public static class Options
     public static float MasterVolume;
     public static float SoundEffectsVolume;
     public static float MusicVolume;
-    public static bool IsOptionsMenuLoaded = false;
 
     public static void FirstTimeUpdate()
     {

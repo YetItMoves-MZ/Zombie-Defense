@@ -37,6 +37,7 @@ public class MainBase : MonoBehaviour
     void OnDeath()
     {
         GetComponent<AudioSource>().Play();
+        ScoreManagement.CheckNewHighScore();
         ScoreManagement.GameEndedMessage = "You Lose";
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
