@@ -13,9 +13,12 @@ public class TimePlay : MonoBehaviour
 
     [SerializeField] Color selectedColor;
 
+    float fixedDeltaTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        fixedDeltaTime = Time.fixedDeltaTime;
         ChangeColorOfButton(play, selectedColor);
     }
 
@@ -27,6 +30,7 @@ public class TimePlay : MonoBehaviour
             button.transform.GetChild(i).GetComponent<Image>().color = color;
         }
     }
+
 
     void DeselectAllButtons()
     {
@@ -44,7 +48,8 @@ public class TimePlay : MonoBehaviour
     }
     public void OnPauseClick()
     {
-        OnButtonClick(pause, 0f);
+        OnButtonClick(pause, 0.000001f);
+        print(Time.timeScale);
     }
     public void OnPlayClick()
     {

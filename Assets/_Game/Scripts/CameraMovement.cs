@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -20,25 +22,36 @@ public class CameraMovement : MonoBehaviour
     float yPosition;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         yPosition = transform.position.y;
+        StartCoroutine(UnscaledUpdate());
     }
 
-    // Update is called once per frame
-    void Update()
+    // makeing my own update that is not scaled by unity normal time.
+    // private void FixedUpdate()
+    // {
+    //     Move();
+    //     Rotate();
+    //     Zoom();
+    // }
+
+    IEnumerator UnscaledUpdate()
     {
-        Move();
-        Rotate();
-        Zoom();
+        while (true)
+        {
+            Move();
+            Rotate();
+            Zoom();
+            yield return new WaitForSecondsRealtime(Time.unscaledDeltaTime);
+        }
     }
 
     void Move()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(horizontal * Time.deltaTime * MoveSpeed, 0f, vertical * Time.deltaTime * MoveSpeed);
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        Vector3 movement = new Vector3(horizontal * Time.unscaledDeltaTime * MoveSpeed, 0f, vertical * Time.unscaledDeltaTime * MoveSpeed);
         Vector3 rotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0f, rotation.y, rotation.z);
         transform.Translate(movement);
@@ -54,19 +67,19 @@ public class CameraMovement : MonoBehaviour
     }
     void Rotate()
     {
-        float yRotation = Input.GetAxis("Rotate");
+        float yRotation = Input.GetAxisRaw("Rotate");
 
-        Vector3 rotation = new Vector3(0f, yRotation * Time.deltaTime * RotationSpeed, 0f);
+        Vector3 rotation = new Vector3(0f, yRotation * Time.unscaledDeltaTime * RotationSpeed, 0f);
         transform.rotation = Quaternion.Euler(rotation + transform.rotation.eulerAngles);
     }
     void Zoom()
     {
-        float zoom = Input.GetAxis("Zoom");
+        float zoom = Input.GetAxisRaw("Zoom");
 
         if ((transform.position.y <= MinZoom && zoom > 0) ||
         (transform.position.y >= MaxZoom && zoom < 0))
             zoom = 0;
 
-        transform.Translate(0f, 0f, zoom * Time.deltaTime * ZoomSpeed);
+        transform.Translate(0f, 0f, zoom * Time.unscaledDeltaTime * ZoomSpeed);
     }
 }

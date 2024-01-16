@@ -41,7 +41,7 @@ public abstract class AIMomvement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         target = FindClosestTarget(targetTag, defaultTargetTransform);
         if (currentMode == Mode.Idle)

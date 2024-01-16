@@ -17,6 +17,8 @@ public class AllyMovement : AIMomvement
     }
     protected override void DealDamage()
     {
+        transform.LookAt(target);
+        GetComponent<ParticleShooter>().ShootParticle();
         GetComponent<AudioSource>().Play();
         target.TryGetComponent(out Stats stats);
         stats.Health -= Damage;

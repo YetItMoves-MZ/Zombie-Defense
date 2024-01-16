@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public class ZombieMovement : AIMomvement
 {
-
     public int MoneyGainedOnKilled;
     // Start is called before the first frame update
     protected override void Start()

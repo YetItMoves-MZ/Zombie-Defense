@@ -57,6 +57,7 @@ public class TurretControl : MonoBehaviour
 
     private void DealDamage()
     {
+        GetComponent<ParticleShooter>().ShootParticle();
         GetComponent<AudioSource>().Play();
         target.GetComponent<Stats>().Health -= Damage;
     }
@@ -72,7 +73,6 @@ public class TurretControl : MonoBehaviour
     private Transform FindClosestTarget()
     {
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, AttackRange, transform.forward, AttackRange);
-
         if (hits.Length < 1)
             return null;
 
