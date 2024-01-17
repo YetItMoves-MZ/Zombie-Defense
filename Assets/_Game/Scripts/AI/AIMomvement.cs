@@ -70,6 +70,8 @@ public abstract class AIMomvement : MonoBehaviour
         {
             currentMode = Mode.Moveing;
             animator.SetBool("CanAttack", false);
+            animator.SetBool("IsAttacking", false);
+            isAttackAnimationStarted = false;
         }
     }
     protected abstract void OnMovement();
