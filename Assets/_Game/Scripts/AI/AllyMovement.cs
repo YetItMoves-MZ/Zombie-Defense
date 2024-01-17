@@ -28,7 +28,11 @@ public class AllyMovement : AIMomvement
 
     protected override void DealDamage()
     {
-        transform.LookAt(target);
+        transform.GetChild(0).LookAt(target);
+        // Soldier attack animation rotates the soldier by -45 in Y
+        // so just fixing that to make the soldier shoot directly at the target
+        transform.GetChild(0).Rotate(new Vector3(0f, 45f, 0f));
+
         GetComponent<ParticleShooter>().ShootParticle();
         GetComponent<AudioSource>().Play();
         if (!target.TryGetComponent(out Stats stats))
