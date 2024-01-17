@@ -7,6 +7,8 @@ public class AllyMovement : AIMomvement
 {
     public delegate void AllyEvent(AllyMovement allyMovement);
     public AllyEvent OnSummonDeath;
+
+    int soldierUpgrade = 0;
     protected override void Start()
     {
         base.Start();
@@ -14,14 +16,24 @@ public class AllyMovement : AIMomvement
         targetTag = "Enemy";
         defaultTargetTransform = null;
         myStats.OnDeath += OnAllyDeath;
+        soldierUpgrade = BuildingUpgrades.Instance.Soldier.UpgradeValue;
+        BuildingUpgrades.Instance.Soldier.UpgradeValueChanged += OnUpgradeValueChange;
     }
+
+    private void OnUpgradeValueChange(int newValue)
+    {
+        myStats.MaxHealth += newValue - soldierUpgrade;
+        soldierUpgrade = newValue;
+    }
+
     protected override void DealDamage()
     {
         transform.LookAt(target);
         GetComponent<ParticleShooter>().ShootParticle();
         GetComponent<AudioSource>().Play();
-        target.TryGetComponent(out Stats stats);
-        stats.Health -= Damage;
+        if (!target.TryGetComponent(out Stats stats))
+            return;
+        stats.Health -= Damage + BuildingUpgrades.Instance.Soldier.UpgradeValue;
         if (stats.Health <= 0)
         {
             target = FindClosestTarget("Enemy", null);
@@ -49,6 +61,8 @@ public class AllyMovement : AIMomvement
 
     void OnAllyDeath()
     {
+        BuildingUpgrades.Instance.Soldier.UpgradeValueChanged -= OnUpgradeValueChange;
         OnSummonDeath?.Invoke(this);
     }
+
 }

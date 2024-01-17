@@ -203,4 +203,4 @@ MonoBehaviour:
   SpawnTime: 2
   MinimumDayToStartSpawn: 15
   DayMultiplier: 0.016
-  MoneyGainedOnDestruction: 6000
+  MoneyGainedOnDestruction: 1500

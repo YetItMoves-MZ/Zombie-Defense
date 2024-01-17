@@ -48,8 +48,7 @@ public class TimePlay : MonoBehaviour
     }
     public void OnPauseClick()
     {
-        OnButtonClick(pause, 0.000001f);
-        print(Time.timeScale);
+        OnButtonClick(pause, 0f);
     }
     public void OnPlayClick()
     {

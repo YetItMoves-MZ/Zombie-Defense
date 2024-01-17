@@ -22,12 +22,23 @@ public class TurretControl : MonoBehaviour
     Mode currentMode;
     Stats myStats;
     float timer;
+    int turretUpgrade = 0;
+
 
     virtual protected void Start()
     {
         myStats = GetComponent<Stats>();
         currentMode = Mode.Idle;
         myStats.OnDeath += OnDeath;
+
+        turretUpgrade = BuildingUpgrades.Instance.Turret.UpgradeValue;
+        BuildingUpgrades.Instance.Turret.UpgradeValueChanged += OnUpgradeValueChange;
+    }
+
+    private void OnUpgradeValueChange(int newValue)
+    {
+        myStats.MaxHealth += newValue - turretUpgrade;
+        turretUpgrade = newValue;
     }
 
     void Update()
@@ -107,6 +118,7 @@ public class TurretControl : MonoBehaviour
 
     void OnDeath()
     {
+        BuildingUpgrades.Instance.Turret.UpgradeValueChanged -= OnUpgradeValueChange;
 
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.clip = destructionClip;

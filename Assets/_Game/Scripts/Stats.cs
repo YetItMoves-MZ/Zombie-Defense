@@ -39,6 +39,7 @@ public class Stats : MonoBehaviour
         isDead = false;
         Health = MaxHealth;
         OnDeath += DefaultDeath;
+        DayNightCycle.Instance.NightFunctions += OnNightStart;
     }
 
     public void FullHeal()
@@ -46,8 +47,14 @@ public class Stats : MonoBehaviour
         Health = MaxHealth;
     }
 
+    public void OnNightStart()
+    {
+        FullHeal();
+    }
+
     private void OnDestroy()
     {
+        DayNightCycle.Instance.NightFunctions -= OnNightStart;
         OnHealthChanged = null;
         OnDeath = null;
     }

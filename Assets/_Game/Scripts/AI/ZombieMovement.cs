@@ -29,8 +29,8 @@ public class ZombieMovement : AIMomvement
 
     void BuffZombieByDayCounter()
     {
-        Damage = (int)(Damage + 0.5f * DayNightCycle.Instance.DayCounter);
-        myStats.MaxHealth = (int)(myStats.MaxHealth + DayNightCycle.Instance.DayCounter);
+        Damage = (int)(Damage + 0.25f * DayNightCycle.Instance.DayCounter);
+        myStats.MaxHealth = (int)(myStats.MaxHealth + 0.5f * DayNightCycle.Instance.DayCounter);
         myStats.FullHeal();
     }
     protected override void OnMovement()

@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRange: 4
-  SightRange: 50
+  SightRange: 15
   Damage: 1
   MoneyGainedOnKilled: 10
 --- !u!114 &2778268044252334137

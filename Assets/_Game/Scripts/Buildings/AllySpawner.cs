@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class AllySpawner : MonoBehaviour
     Stats stats;
     List<AllyMovement> summonedAllies;
 
+
     void Start()
     {
         stats = GetComponent<Stats>();
@@ -26,6 +28,14 @@ public class AllySpawner : MonoBehaviour
         DayNightCycle.Instance.NightFunctions += OnNightStart;
         if (DayNightCycle.Instance.IsNight)
             OnNightStart();
+
+        MaxAllyCount += BuildingUpgrades.Instance.SoldierCount.UpgradeValue;
+        BuildingUpgrades.Instance.SoldierCount.UpgradeValueChanged += OnUpgradeValueChange;
+    }
+
+    private void OnUpgradeValueChange(int newValue)
+    {
+        MaxAllyCount = MaxAllyCount > newValue ? MaxAllyCount - 1 : MaxAllyCount + 1;
     }
 
     bool TrySummonUnit()
@@ -78,6 +88,7 @@ public class AllySpawner : MonoBehaviour
 
     public void OnDeath()
     {
+        BuildingUpgrades.Instance.SoldierCount.UpgradeValueChanged -= OnUpgradeValueChange;
         AudioSource audioSource = GetComponent<AudioSource>();
         audioSource.clip = destructionClip;
         audioSource.Play();
