@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuEngine : MonoBehaviour
 {
     [SerializeField] GameObject MainMenuUI;
+    [SerializeField] GameObject RulesUI;
     void Start()
     {
         if (ScoreManagement.NewHighScore)
@@ -22,7 +23,7 @@ public class MainMenuEngine : MonoBehaviour
 
         bool optionsIsOpened = OptionsMenuEngine.Instance != null && OptionsMenuEngine.Instance.IsOpened;
         bool leaderboardsIsOpened = LeaderboardsEngine.Instance != null && LeaderboardsEngine.Instance.IsOpened;
-        MainMenuUI.SetActive(!(optionsIsOpened || leaderboardsIsOpened));
+        MainMenuUI.SetActive(!(optionsIsOpened || leaderboardsIsOpened || RulesUI.activeSelf));
     }
     public void OnPlayClick()
     {
@@ -45,5 +46,17 @@ public class MainMenuEngine : MonoBehaviour
     public void OnOptionsClick()
     {
         SceneManager.LoadScene(3, LoadSceneMode.Additive);
+    }
+
+    public void OnRulesOpenClick()
+    {
+        RulesUI.SetActive(true);
+        MainMenuUI.SetActive(false);
+    }
+
+    public void OnRulesCloseClick()
+    {
+        RulesUI.SetActive(false);
+        MainMenuUI.SetActive(true);
     }
 }
