@@ -10,6 +10,7 @@ public class OptionsMenuEngine : MonoBehaviour
     [SerializeField] Slider masterVolumeSlider;
     [SerializeField] Slider soundEffectsVolumeSlider;
     [SerializeField] Slider musicVolumeSlider;
+    [SerializeField] GameObject SurrenderButton;
 
     [HideInInspector] public bool IsOpened;
 
@@ -20,6 +21,7 @@ public class OptionsMenuEngine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SurrenderButton.SetActive(SceneManager.GetSceneByBuildIndex(1).isLoaded);
         IsOpened = true;
         masterVolumeSlider.value = Options.MasterVolume;
         soundEffectsVolumeSlider.value = Options.SoundEffectsVolume;
@@ -53,5 +55,13 @@ public class OptionsMenuEngine : MonoBehaviour
     private void OnDestroy()
     {
         IsOpened = false;
+    }
+
+    public void OnSurrenderClick()
+    {
+        ScoreManagement.CheckNewHighScore();
+        ScoreManagement.GameEndedMessage = "You Lose";
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        OnCloseClick();
     }
 }
